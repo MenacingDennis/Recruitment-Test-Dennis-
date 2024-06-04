@@ -4,6 +4,7 @@ export default function App() {
     const [employees, setEmployees] = useState([]);
     const [newEmployeeName, setNewEmployeeName] = useState('');
     const [newEmployeeValue, setNewEmployeeValue] = useState('');
+    const endpoint = "http://localhost:5000/employees";
 
     // Fetch employees from the server and update the state
     useEffect(() => {
@@ -20,13 +21,13 @@ export default function App() {
     }
 
     async function getEmployees() {
-        return fetch("/employees").then(response => response.json());
+        return fetch(endpoint).then(response => response.json());
     }
 
     async function createEmployee(event) {
         event.preventDefault();
         try {
-            await fetch("/employees", {
+            await fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: newEmployeeName, value: parseInt(newEmployeeValue) })
@@ -41,7 +42,7 @@ export default function App() {
 
     async function updateEmployee(name, value) {
         try {
-            await fetch("/employees", {
+            await fetch(endpoint, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, value })
@@ -55,15 +56,22 @@ export default function App() {
     return (
         <div>
             <h1>Employee List</h1>
-            <ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee Name</th>
+                    <th>Employee ID</th>
+                </tr>
+            </thead>
+            <tbody>
                 {employees.map((employee, index) => (
-                    <li key={index}>
-                        {employee.name} - {employee.value}
-                        <button onClick={() => updateEmployee(employee.name, employee.value + 1)}>Increase Value</button>
-                        <button onClick={() => updateEmployee(employee.name, employee.value - 1)}>Decrease Value</button>
-                    </li>
+                    <tr key={index}>
+                        <td>{employee.name}</td>
+                        <td>{employee.value}</td>
+                    </tr>
                 ))}
-            </ul>
+            </tbody>
+        </table>
             <h2>Add New Employee</h2>
             <form onSubmit={createEmployee}>
                 <input

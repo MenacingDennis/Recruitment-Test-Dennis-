@@ -21,6 +21,13 @@ namespace InterviewTestBasic
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowOrigin",
+                    builder => builder.WithOrigins("http://localhost:3000")
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader());
+            });
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -42,6 +49,7 @@ namespace InterviewTestBasic
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+            app.UseCors("AllowOrigin");
 
             app.UseEndpoints(endpoints =>
             {
