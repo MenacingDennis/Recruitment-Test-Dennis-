@@ -26,7 +26,7 @@ export default function App() {
     async function getEmployees() {
         return fetch(endpoint).then(response => response.json());
     }
-
+    //Create new employees function
     async function createEmployee(event) {
         event.preventDefault();
         try {
@@ -42,7 +42,7 @@ export default function App() {
             console.error("Error creating employee:", error);
         }
     }
-
+    //Edit Employees function
     async function updateEmployee(event) {
         event.preventDefault();
         try {
@@ -71,6 +71,7 @@ export default function App() {
             <h1 className="text-4xl text-center">Employee List</h1>
             <div className="flex justify-between items-start p-4">
                 <div className="text-left self-center">
+                    {/* List of Employees */}
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">
                             <tr>
